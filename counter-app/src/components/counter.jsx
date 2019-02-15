@@ -6,47 +6,48 @@ class Counter extends Component {
   //   // this.handleIncrement = this.handleIncrement.bind(this);
   // }
 
-  state = {
-    //If constructor is there we never get the value of value
-    value: this.props.value
-    // tags: ["tag1", "tag2", "tag3"],
-    // imageUrl: "https://picsum.photos/200"
-  };
+  //Commenting state because of Single Source of Truth
+  // state = {
+  //   //If constructor is there we never get the value of value
+  //   value: this.props.counter.value
+  //   // tags: ["tag1", "tag2", "tag3"],
+  //   // imageUrl: "https://picsum.photos/200"
+  // };
 
   styles = {
     fontSize: 10,
     fontWeight: "bold"
   };
 
-  renderTags() {
-    if (this.state.tags.length === 0) {
-      return <p>There are not tags!</p>;
-    }
-    return (
-      <ul>
-        {this.state.tags.map(tag => (
-          <li key={tag}>{tag}</li>
-        ))}
-      </ul>
-    );
-  }
+  // renderTags() {
+  //   if (this.state.tags.length === 0) {
+  //     return <p>There are not tags!</p>;
+  //   }
+  //   return (
+  //     <ul>
+  //       {this.state.tags.map(tag => (
+  //         <li key={tag}>{tag}</li>
+  //       ))}
+  //     </ul>
+  //   );
+  // }
 
-  handleIncrement = product => {
-    // console.log(product);
-    //In React the changes goes to virtual dom and increment won't reflect so we have to tell React to
-    //change its state. It isn't like Angular.
-    //this.state.count++;
-    this.setState({ value: this.state.value + 1 });
-    //console.log("Increment clicked", this);
-    //this.state.count++;
-    //Never get this variable reason
-    //obj.method() will not point to this
-    //method() will point to Window if not in restricted mode.
-    //So to get this object inside the function we use constructor with bind
-    //Alternate solution: Convert the function to error function and this would be referenced in it.
-    // handleIncrement() = () => {}
-    //But it won't work in future
-  };
+  // handleIncrement = product => {
+  //   // console.log(product);
+  //   //In React the changes goes to virtual dom and increment won't reflect so we have to tell React to
+  //   //change its state. It isn't like Angular.
+  //   //this.state.count++;
+  //   this.setState({ value: this.state.value + 1 });
+  //   //console.log("Increment clicked", this);
+  //   //this.state.count++;
+  //   //Never get this variable reason
+  //   //obj.method() will not point to this
+  //   //method() will point to Window if not in restricted mode.
+  //   //So to get this object inside the function we use constructor with bind
+  //   //Alternate solution: Convert the function to error function and this would be referenced in it.
+  //   // handleIncrement() = () => {}
+  //   //But it won't work in future
+  // };
 
   //One solution to pass argument
   // doHandleIncrement = () => {
@@ -65,10 +66,17 @@ class Counter extends Component {
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
           //Passing error function to handle argument
-          onClick={() => this.handleIncrement({ id: 1 })}
+          // onClick={() => this.handleIncrement({ id: 1 })}
+          onClick={() => this.props.onIncrement(this.props.counter)}
           className="btn btn-secondary btn-sm"
         >
           Increment
+        </button>
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)}
+          className="btn btn-danger btn-sm m-2"
+        >
+          Delete
         </button>
 
         {/* This is javascript that displays the second operand. As if first is true the javascript
@@ -82,12 +90,12 @@ class Counter extends Component {
 
   getBadgeClasses() {
     let classes = "badge m-2 badge-";
-    classes += this.state.value === 0 ? "warning" : "primary";
+    classes += this.props.counter.value === 0 ? "warning" : "primary";
     return classes;
   }
 
   formatCount() {
-    const { value: count } = this.state;
+    const { value: count } = this.props.counter;
     return count === 0 ? "Zero" : count;
   }
 }
