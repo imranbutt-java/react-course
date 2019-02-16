@@ -13,6 +13,24 @@ class App extends Component {
     ]
   };
 
+  // Mounting Phase
+  // constructor(props) {
+  //   super(props);
+  //   console.log("App -> Constructor", this.props);
+  // Perfect place for initialising variables
+  constructor() {
+    super();
+    console.log("App -> Constructor");
+    // this.state = this.props.something;
+
+    //this.setState() is couldn't called in constructor as it is useful we the object in the DOM
+  }
+
+  // After object rendered into the DOM and perfect place for Ajax Call
+  componentDidMount() {
+    console.log("App -> Mounted");
+  }
+
   handleReset = () => {
     const counters = this.state.counters.map(c => {
       c.value = 0;
@@ -28,8 +46,9 @@ class App extends Component {
   };
 
   handleIncrement = product => {
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(product);
+    const { counters, index } = this.prepareCounters(product);
+    // const counters = [...this.state.counters];
+    // const index = counters.indexOf(product);
     //It will change the value in actual data that we don't want
     // counter[index].value++
     counters[index] = { ...product };
@@ -37,7 +56,22 @@ class App extends Component {
     this.setState({ counters });
   };
 
+  handleDecrement = product => {
+    const { counters, index } = this.prepareCounters(product);
+    counters[index].value--;
+    this.setState({ counters });
+  };
+
+  prepareCounters(product) {
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(product);
+    counters[index] = { ...product };
+    return { counters, index };
+  }
+
+  // When a component renders all its children were rendered recurssively
   render() {
+    console.log("App -> Rendered");
     return (
       <React.Fragment>
         <Navbar
@@ -48,6 +82,7 @@ class App extends Component {
             counters={this.state.counters}
             onReset={this.handleReset}
             onIncrement={this.handleIncrement}
+            onDecrement={this.handleDecrement}
             onDelete={this.handleDelete}
           />
         </main>

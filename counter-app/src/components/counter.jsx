@@ -54,36 +54,61 @@ class Counter extends Component {
   //   this.handleIncrement({ id: 1 });
   // };
 
+  componentDidUpdate(preProps, preState) {
+    console.log("preProps", preProps);
+    console.log("preState", preState);
+    if (preProps.counter.value !== this.props.counter.value) {
+      // Make Ajax Call to get some data from Server
+    }
+  }
+
+  // Better place for clean up
+  componentWillUnmount() {
+    console.log("Counter -> Unmount");
+  }
+
   render() {
     //Return Automatic semicolon insertion, would work when we have single statement in front of
     //return statement or return ()
 
+    console.log("Counter -> Rendered");
     return (
-      <div>
-        {/* <React.Fragment> */}
-        {/* <img src={this.state.imageUrl} alt="Picsum Image" /> */}
-        {/* styles={this.styles} or inline style { {fontSize: 30} } */}
-        <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-        <button
-          //Passing error function to handle argument
-          // onClick={() => this.handleIncrement({ id: 1 })}
-          onClick={() => this.props.onIncrement(this.props.counter)}
-          className="btn btn-secondary btn-sm"
-        >
-          Increment
-        </button>
-        <button
-          onClick={() => this.props.onDelete(this.props.counter.id)}
-          className="btn btn-danger btn-sm m-2"
-        >
-          Delete
-        </button>
+      <div className="row">
+        <div className="col-1">
+          {/* <React.Fragment> */}
+          {/* <img src={this.state.imageUrl} alt="Picsum Image" /> */}
+          {/* styles={this.styles} or inline style { {fontSize: 30} } */}
+          <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+        </div>
+        <div className="col">
+          <button
+            //Passing error function to handle argument
+            // onClick={() => this.handleIncrement({ id: 1 })}
+            onClick={() => this.props.onIncrement(this.props.counter)}
+            className="btn btn-secondary btn-sm"
+          >
+            +
+          </button>
+          <button
+            onClick={() => this.props.onDecrement(this.props.counter)}
+            className="btn btn-secondary btn-sm m-2"
+            disabled={this.props.counter.value === 0}
+          >
+            -
+          </button>
+          <button
+            onClick={() => this.props.onDelete(this.props.counter.id)}
+            className="btn btn-danger btn-sm"
+          >
+            x
+          </button>
 
-        {/* This is javascript that displays the second operand. As if first is true the javascript
+          {/* This is javascript that displays the second operand. As if first is true the javascript
         Engine would see the next operand and in case of String it is true */}
-        {/* {this.state.tags.length === 0 && "Please, create a new tag"} */}
-        {/* {this.renderTags()} */}
-        {/* </React.Fragment> */}
+          {/* {this.state.tags.length === 0 && "Please, create a new tag"} */}
+          {/* {this.renderTags()} */}
+          {/* </React.Fragment> */}
+        </div>
       </div>
     );
   }
