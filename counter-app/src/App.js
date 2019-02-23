@@ -58,6 +58,9 @@ class App extends Component {
 
   handleDecrement = product => {
     const { counters, index } = this.prepareCounters(product);
+    if(counters[index].value === 0) {
+      
+    }
     counters[index].value--;
     this.setState({ counters });
   };
