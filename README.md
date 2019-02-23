@@ -1,2 +1,2 @@
 # react-course
-React course from Mosh Hamadani
+React course that shows best practices also.
